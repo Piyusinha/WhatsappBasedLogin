@@ -1,5 +1,6 @@
 package com.teen.waveerifysdk.socketClient
 
+import android.util.Log
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import okhttp3.OkHttpClient
@@ -34,7 +35,6 @@ import java.util.concurrent.TimeUnit
             Request.Builder().url(url).build(),
             webSocketListener
         )
-        socketOkHttpClient.dispatcher.executorService.shutdown()
     }
 
     @ExperimentalCoroutinesApi
@@ -45,6 +45,7 @@ import java.util.concurrent.TimeUnit
             _webSocketListener?.socketEventChannel?.close()
             _webSocketListener = null
         } catch (ex: Exception) {
+            Log.d("Tag",ex.toString())
         }
     }
 

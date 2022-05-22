@@ -18,9 +18,6 @@ internal class WaWebSocketListener : WebSocketListener() {
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         webSocket.send("Hi")
-        webSocket.send("Hi again")
-        webSocket.send("Hi again again")
-        webSocket.send("Hi again again again")
     }
 
     @DelicateCoroutinesApi

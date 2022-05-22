@@ -1,6 +1,6 @@
 package com.teen.waveerifysdk.callback
 
-import com.teen.model.WASuccessResponse
+import com.teen.waveerifysdk.model.WASuccessResponse
 
 
 interface WhatsappLoginCallback {

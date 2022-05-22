@@ -1,4 +1,4 @@
-package com.teen.model
+package com.teen.waveerifysdk.model
 
 class WASuccessResponse(
     val name:String?,
