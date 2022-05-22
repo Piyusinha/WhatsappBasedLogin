@@ -49,7 +49,11 @@ import java.util.concurrent.TimeUnit
         }
     }
 
-    companion object {
+     fun onDestroy() {
+         socketOkHttpClient.dispatcher.executorService.shutdown()
+     }
+
+     companion object {
         const val NORMAL_CLOSURE_STATUS = 1000
     }
 

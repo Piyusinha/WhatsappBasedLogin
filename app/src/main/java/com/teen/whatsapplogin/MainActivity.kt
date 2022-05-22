@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        WaVerifySdk.getInstance()?.stopSocket()
-        WaVerifySdk.close()
+        WaVerifySdk.getInstance()?.onDestroy()
     }
 }

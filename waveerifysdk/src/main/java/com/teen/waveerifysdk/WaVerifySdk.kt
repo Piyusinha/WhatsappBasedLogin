@@ -14,7 +14,6 @@ import kotlinx.coroutines.withContext
 import android.net.Uri
 
 import android.content.Intent
-import android.widget.Toast
 import java.util.*
 
 
@@ -143,5 +142,11 @@ class WaVerifySdk private constructor(builder: WaBuilder) {
     @ExperimentalCoroutinesApi
     fun stopSocket(){
         socket.stopSocket()
+    }
+
+    fun onDestroy(){
+        stopSocket()
+        close()
+        socket.onDestroy()
     }
 }
