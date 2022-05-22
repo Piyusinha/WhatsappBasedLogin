@@ -3,7 +3,7 @@ package com.teen.waveerifysdk.model
 
 import com.google.gson.annotations.SerializedName
 
-data class SocketResponse(
+internal data class SocketResponse(
     @SerializedName("documentKey")
     var documentKey: DocumentKey?,
     @SerializedName("fullDocument")

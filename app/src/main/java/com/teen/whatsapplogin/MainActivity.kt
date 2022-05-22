@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import com.teen.waveerifysdk.WaVerifySdk
 import com.teen.waveerifysdk.callback.WhatsappLoginCallback
-import com.teen.waveerifysdk.model.SocketResponse
 import com.teen.waveerifysdk.model.WASuccessResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.EOFException
-import java.io.InterruptedIOException
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
