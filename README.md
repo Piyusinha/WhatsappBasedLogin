@@ -49,7 +49,10 @@ WhatsAppBasedLogin supports both Kotlin and Java projects, so you can reference 
  .message(customMessage)
  .build()
 ```
-Here, whatsappLoginCallback is an interface that you need to define in your app where you would get the success or failure callbacks
+Here, whatsappLoginCallback is an interface that you need to define in your app where you would get the success or failure callbacks</br>
+
+Note : **Use same _businessnumber_ which you verify on Meta for Developers Portal**
+
 
 ### You can trigger the Whatsapp verification flow by calling the following method
 ```kotlin
