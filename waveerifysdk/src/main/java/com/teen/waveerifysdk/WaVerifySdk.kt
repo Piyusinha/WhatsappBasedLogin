@@ -1,9 +1,6 @@
 package com.teen.waveerifysdk
 
 import android.content.Context
-import com.google.gson.Gson
-import com.teen.waveerifysdk.model.SocketResponse
-import com.teen.waveerifysdk.model.WASuccessResponse
 import com.teen.waveerifysdk.callback.WhatsappLoginCallback
 import com.teen.waveerifysdk.socketClient.SocketConnectionProvider
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.withContext
 import com.teen.waveerifysdk.utils.WaSdkUtils
+import com.teen.waveerifysdk.utils.WaSdkUtils.Companion.getToken
 import com.teen.waveerifysdk.utils.WaSdkUtils.Companion.onGetResponse
 import com.teen.waveerifysdk.utils.WaSdkUtils.Companion.uniqueId
 import com.teen.waveerifysdk.utils.WaSdkUtils.Companion.verifyMessage
@@ -19,11 +17,12 @@ import com.teen.waveerifysdk.utils.WaSdkUtils.Companion.verifyMessage
 class WaVerifySdk private constructor(builder: WASdkBuilder) {
     private val url: String? = builder.url
     private var callback: WhatsappLoginCallback?
-    private val socket = SocketConnectionProvider()
+    private val uniqueID:String = uniqueId()
+    private val jwtKey = builder.jwtSecretKey
+    private var socket :SocketConnectionProvider? = SocketConnectionProvider(getToken(jwtKey,identifier = uniqueID))
     private val context: Context?
     private val businessNumber:String
     private val message:String
-    private val uniqueID:String
     private var socketStarted = false
 
     init {
@@ -31,7 +30,6 @@ class WaVerifySdk private constructor(builder: WASdkBuilder) {
         this.context = builder.context
         this.businessNumber = builder.businessNumber
         this.message = builder.message
-        this.uniqueID = uniqueId()
     }
 
     companion object {
@@ -59,11 +57,23 @@ class WaVerifySdk private constructor(builder: WASdkBuilder) {
         var message: String = ""
             private set
 
+        var jwtSecretKey: String = ""
+            private set
+
         fun callback(callback: WhatsappLoginCallback) = apply { this.callback = callback }
 
         fun message(msg:String) = apply { this.message = msg }
 
-        fun build() = initWhatsAppSdk(this)
+        fun jwtSecretKey(key:String) = apply { this.jwtSecretKey = jwtSecretKey }
+
+        fun build() {
+            if(jwtSecretKey.isNotEmpty() && jwtSecretKey.length < 32){
+                throw RuntimeException("Secret Key must be length of 32")
+            }else{
+                initWhatsAppSdk(this)
+            }
+
+        }
     }
 
     @ExperimentalCoroutinesApi
@@ -72,15 +82,14 @@ class WaVerifySdk private constructor(builder: WASdkBuilder) {
         withContext(Dispatchers.IO) {
             if (url != null && !socketStarted) {
                 socketStarted = true
-                socket.startSocket(url).consumeEach {
+                socket?.startSocket(url)?.consumeEach {
                     if (it.exception == null) {
                         if(verifyMessage(it.text,uniqueID)) {
                             callback?.onWhatsAppLoginSuccess(onGetResponse(it.text))
-                            onDestroy()
                         }
                     } else {
                         socketStarted = false
-                        socket.stopSocket()
+                        socket?.stopSocket()
                         callback?.onWhatsAppError(it.exception)
                     }
                 }
@@ -90,16 +99,19 @@ class WaVerifySdk private constructor(builder: WASdkBuilder) {
 
     @ExperimentalCoroutinesApi
     fun stopSocket(){
-        socket.stopSocket()
+        socket?.stopSocket()
     }
 
     fun onDestroy(){
         stopSocket()
         close()
-        socket.onDestroy()
+        socket?.onDestroy()
     }
 
     fun isUsable(): Boolean {
        return WaSdkUtils.isUsable(context)
+    }
+    fun getJWTToken(): String? {
+        return socket?.getJWTtoken()
     }
 }

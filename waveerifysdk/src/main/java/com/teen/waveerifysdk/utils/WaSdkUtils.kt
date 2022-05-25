@@ -4,12 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.service.carrier.CarrierIdentifier
 import com.google.gson.Gson
+import com.teen.waveerifysdk.DEFAULT_KEY
 import com.teen.waveerifysdk.MESSAGE
 import com.teen.waveerifysdk.URL
 import com.teen.waveerifysdk.WHATSAPP_PKG
 import com.teen.waveerifysdk.model.SocketResponse
 import com.teen.waveerifysdk.model.WASuccessResponse
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.security.Keys
 import java.util.*
 
 internal class WaSdkUtils {
@@ -62,6 +67,22 @@ internal class WaSdkUtils {
             val data = Gson().fromJson(text,SocketResponse::class.java)
             val contactInfo = data.fullDocument?.entry?.get(0)?.changes?.get(0)?.value?.contacts?.get(0)
             return WASuccessResponse(contactInfo?.profile?.name,contactInfo?.waId)
+        }
+        fun getToken(key: String ,identifier: String): String {
+            val fKeys = if(key.isNotEmpty()) key else DEFAULT_KEY
+            val shaKey = Keys.hmacShaKeyFor(fKeys.toByteArray())
+            val jws = Jwts.builder()
+                .setExpiration(getExpirationDate())
+                .setIssuer("PennyUp")
+                .signWith(shaKey, SignatureAlgorithm.HS256)
+                .claim("device-identifier", identifier)
+                .compact();
+            return jws
+        }
+        private fun getExpirationDate(): Date {
+            val cal = Calendar.getInstance();
+            cal.add(Calendar.MINUTE, 60)
+            return cal.time
         }
     }
 }

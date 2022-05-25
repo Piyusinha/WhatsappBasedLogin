@@ -8,11 +8,12 @@ import okhttp3.Request
 import okhttp3.WebSocket
 import java.util.concurrent.TimeUnit
 
-internal class SocketConnectionProvider {
+internal class SocketConnectionProvider(private val token: String) {
 
     private var _webSocket: WebSocket? = null
 
     private val socketOkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(AuthorizationInterceptor(token))
         .readTimeout(30, TimeUnit.SECONDS)
         .connectTimeout(39, TimeUnit.SECONDS)
         .hostnameVerifier { _, _ -> true }
@@ -52,7 +53,9 @@ internal class SocketConnectionProvider {
     fun onDestroy() {
         socketOkHttpClient.dispatcher.executorService.shutdown()
     }
-
+    fun getJWTtoken(): String {
+        return token
+    }
     companion object {
         const val NORMAL_CLOSURE_STATUS = 1000
     }
