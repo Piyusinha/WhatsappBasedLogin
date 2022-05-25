@@ -33,7 +33,7 @@ Add the dependency below to your **module**'s `build.gradle` file:
 
 ```gradle
 dependencies {
-	   implementation 'com.github.Piyusinha:WhatsappBasedLogin:v1.0.0'
+	   implementation 'com.github.Piyusinha:WhatsappBasedLogin:v1.0.1'
 	}
 ```
 ## How to Use
@@ -41,18 +41,20 @@ WhatsAppBasedLogin supports both Kotlin and Java projects, so you can reference 
 
 ### Create WhatsappLogin with Kotlin DSL
 ```kotlin
- WaVerifySdk.WaBuilder()
- .context(this)
- .url(socketURL)
- .callback(whatsappLoginCallback)
- .businessNumber(businessNumber)
- .message(customMessage)
- .build()
+WaVerifySdk.WASdkBuilder(
+	context,
+	businessnumber,
+        socketUrl )
+        .callback(whatsappLoginCallback) \\ optional
+        .message(message) \\ optional
+	.jwtSecretKey(key) \\ required if you are not using our default key
+        .build()
 ```
 Here, whatsappLoginCallback is an interface that you need to define in your app where you would get the success or failure callbacks</br>
 
 Note : **Use same _businessnumber_ which you verify on Meta for Developers Portal**
 
+Default JWT secret key = "accesstokensecretaccesstokensecr" (lenght must be greater the 32 )
 
 ### You can trigger the Whatsapp verification flow by calling the following method
 ```kotlin
@@ -86,6 +88,14 @@ override fun onDestroy() {
 }
 ```
 Note: It's important to Destory SDK instance beacause it's close the socket connection.
+
+### Check whatsapp present in User's device or not
+
+You can check if the Whatsapp app is present on the user's device or not by using the following method
+```kotlin
+WaVerifySdk.getInstance().isUsable()
+```
+
 
 
 # License
