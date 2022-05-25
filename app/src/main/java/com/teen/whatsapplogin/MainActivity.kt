@@ -38,9 +38,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        WaVerifySdk.WaBuilder().context(this)
-            .url("https://whatsapp-websocket.herokuapp.com/wasocket")
-            .callback(whatsappLoginCallback).businessNumber("919717083714").message("Hello from Pennyup,Please send this message to verify").build()
+        WaVerifySdk.WASdkBuilder(this,"919717083714","https://whatsapp-websocket.herokuapp.com/wasocket")
+            .callback(whatsappLoginCallback).message("Hello from Pennyup,Please send this message to verify").build()
         if (WaVerifySdk.getInstance().isUsable()) {
             findViewById<AppCompatButton>(R.id.whatsapp_button)?.apply {
                 isVisible = true
