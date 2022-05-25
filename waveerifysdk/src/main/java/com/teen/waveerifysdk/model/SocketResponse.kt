@@ -13,12 +13,12 @@ internal data class SocketResponse(
     @SerializedName("ns")
     var ns: Ns?,
     @SerializedName("operationType")
-    var operationType: String?
+    var operationType: String?,
 ) {
 
     data class DocumentKey(
         @SerializedName("_id")
-        var id: String?
+        var id: String?,
     )
 
     data class FullDocument(
@@ -29,7 +29,7 @@ internal data class SocketResponse(
         @SerializedName("object")
         var objectX: String?,
         @SerializedName("__v")
-        var v: Int?
+        var v: Int?,
     ) {
         data class Entry(
             @SerializedName("changes")
@@ -37,7 +37,7 @@ internal data class SocketResponse(
             @SerializedName("id")
             var id: String?,
             @SerializedName("_id")
-            var _id: String?
+            var _id: String?,
         ) {
             data class Change(
                 @SerializedName("field")
@@ -45,7 +45,7 @@ internal data class SocketResponse(
                 @SerializedName("_id")
                 var id: String?,
                 @SerializedName("value")
-                var value: Value?
+                var value: Value?,
             ) {
                 data class Value(
                     @SerializedName("contacts")
@@ -55,7 +55,7 @@ internal data class SocketResponse(
                     @SerializedName("messaging_product")
                     var messagingProduct: String?,
                     @SerializedName("metadata")
-                    var metadata: Metadata?
+                    var metadata: Metadata?,
                 ) {
                     data class Contact(
                         @SerializedName("_id")
@@ -63,11 +63,11 @@ internal data class SocketResponse(
                         @SerializedName("profile")
                         var profile: Profile?,
                         @SerializedName("wa_id")
-                        var waId: String?
+                        var waId: String?,
                     ) {
                         data class Profile(
                             @SerializedName("name")
-                            var name: String?
+                            var name: String?,
                         )
                     }
 
@@ -83,11 +83,11 @@ internal data class SocketResponse(
                         @SerializedName("timestamp")
                         var timestamp: String?,
                         @SerializedName("type")
-                        var type: String?
+                        var type: String?,
                     ) {
                         data class Text(
                             @SerializedName("body")
-                            var body: String?
+                            var body: String?,
                         )
                     }
 
@@ -95,7 +95,7 @@ internal data class SocketResponse(
                         @SerializedName("display_phone_number")
                         var displayPhoneNumber: String?,
                         @SerializedName("phone_number_id")
-                        var phoneNumberId: String?
+                        var phoneNumberId: String?,
                     )
                 }
             }
@@ -104,13 +104,13 @@ internal data class SocketResponse(
 
     data class Id(
         @SerializedName("_data")
-        var `data`: String?
+        var `data`: String?,
     )
 
     data class Ns(
         @SerializedName("coll")
         var coll: String?,
         @SerializedName("db")
-        var db: String?
+        var db: String?,
     )
 }

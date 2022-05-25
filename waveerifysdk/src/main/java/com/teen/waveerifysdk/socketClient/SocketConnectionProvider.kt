@@ -8,7 +8,7 @@ import okhttp3.Request
 import okhttp3.WebSocket
 import java.util.concurrent.TimeUnit
 
- internal class SocketConnectionProvider {
+internal class SocketConnectionProvider {
 
     private var _webSocket: WebSocket? = null
 
@@ -24,12 +24,12 @@ import java.util.concurrent.TimeUnit
     @ExperimentalCoroutinesApi
     fun startSocket(url: String): Channel<SocketUpdate> =
         with(WaWebSocketListener()) {
-            startSocket(this,url)
+            startSocket(this, url)
             this@with.socketEventChannel
         }
 
     @ExperimentalCoroutinesApi
-    fun startSocket(webSocketListener: WaWebSocketListener,url:String) {
+    fun startSocket(webSocketListener: WaWebSocketListener, url: String) {
         _webSocketListener = webSocketListener
         _webSocket = socketOkHttpClient.newWebSocket(
             Request.Builder().url(url).build(),
@@ -45,15 +45,15 @@ import java.util.concurrent.TimeUnit
             _webSocketListener?.socketEventChannel?.close()
             _webSocketListener = null
         } catch (ex: Exception) {
-            Log.d("Tag",ex.toString())
+            Log.d("Tag", ex.toString())
         }
     }
 
-     fun onDestroy() {
-         socketOkHttpClient.dispatcher.executorService.shutdown()
-     }
+    fun onDestroy() {
+        socketOkHttpClient.dispatcher.executorService.shutdown()
+    }
 
-     companion object {
+    companion object {
         const val NORMAL_CLOSURE_STATUS = 1000
     }
 
