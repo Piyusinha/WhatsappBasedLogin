@@ -45,4 +45,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     api "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
+
+    api 'io.jsonwebtoken:jjwt-api:0.10.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.5'
+    runtimeOnly('io.jsonwebtoken:jjwt-orgjson:0.10.5') { }
 }
