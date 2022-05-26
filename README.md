@@ -1,6 +1,7 @@
 <h1 align="left"> <img align="left" alt="Whatsapp" width="50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png"/>Whatsapp Based Login</h1></br>
 <p align="left">
-  Try this to implement fastest phone number verification system [⚡]
+  Try this to implement fastest phone number verification system [⚡] </br>
+  <b> Verify your phone number through whatsapp android </b>
 </p>
 
 <p align="center">
